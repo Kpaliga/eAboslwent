@@ -1,4 +1,4 @@
-package com.example.graduate.validation;
+package com.example.graduate.validation.dictionary;
 
 public interface Dictionaries {
     String FIELD_OF_STUDY = "FIELD_OF_STUDY";

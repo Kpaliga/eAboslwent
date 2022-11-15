@@ -6,7 +6,7 @@ import lombok.experimental.FieldNameConstants;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Getter
@@ -18,7 +18,7 @@ import java.util.UUID;
 @FieldNameConstants(asEnum = true)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class VersionedEntity {
+public class Versioned {
 
     @Id
     @GeneratedValue
@@ -26,10 +26,10 @@ public class VersionedEntity {
     private UUID id;
 
     @NotNull
-    private OffsetDateTime created;
+    private LocalDate created = LocalDate.now();
 
     @NotNull
-    private OffsetDateTime modified;
+    private LocalDate modified = LocalDate.now();
 
     @NotNull
     private Boolean deleted = false;

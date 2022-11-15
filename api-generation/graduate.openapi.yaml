@@ -1,0 +1,260 @@
+openapi: 3.0.3
+info:
+  title: Title
+  description: Title
+  version: 1.0.0
+
+servers:
+  - url: https://eAbsolwent.com
+    description: SERWER
+
+security:
+  - bearerAuth: [ ]
+
+tags:
+  - name: Dictionary
+    description: Operacje na słownikach.
+  - name: Student
+    description: Operacje na studentach.
+
+paths:
+  /dictionaries/{dictionaryName}:
+    parameters:
+      - $ref: '#/components/parameters/DictionaryName'
+    get:
+      tags: [ Dictionary ]
+      summary: Wyświetlanie zawartości słownika
+      operationId: getItems
+      responses:
+        '200':
+          description: Zawartość słownika
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StringSet'
+    post:
+      tags: [ Dictionary ]
+      summary: Dodawanie do słownika
+      operationId: addItem
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StringSet'
+      responses:
+        '200':
+          description: Zawartość słownika
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StringSet'
+    put:
+      tags: [ Dictionary ]
+      summary: Usuwanie ze słownika
+      operationId: removeItem
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StringSet'
+      responses:
+        '200':
+          description: Zawartość słownika
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StringSet'
+
+  /student:
+    post:
+      tags: [ Student ]
+      summary: Dodawanie nowego studenta
+      operationId: addStudent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StudentCreateRequest'
+      responses:
+        '200':
+          description: Nowo dodany student
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentDetails'
+    get:
+      parameters:
+        - $ref: '#/components/parameters/StudentFindRequest'
+      tags: [ Student ]
+      summary: Wyświetlanie studenta
+      operationId: getStudents
+      responses:
+        '200':
+          description: Wyświetlanie przefiltrowanych studentów
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StudentDetails'
+  /student/{studentId}:
+    parameters:
+      - $ref: '#/components/parameters/StudentId'
+    get:
+      tags: [ Student ]
+      summary: Wyświetlanie studenta
+      operationId: getStudent
+      responses:
+        '200':
+          description: Wyświetlanie profilu studenta
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentDetails'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    DictionaryName:
+      type: string
+      description: Dostępne słowniki.
+      enum:
+        - FORM_OF_STUDY
+        - FIELD_OF_STUDY
+        - SPECIALIZATION
+    StudentDetails:
+      allOf:
+        - $ref: "#/components/schemas/VersionedRequest"
+      type: object
+      required: [ name,
+                  surname,
+                  photoId,
+                  mail,
+                  yearbook,
+                  formOfStudy,
+                  fieldOfStudy ]
+      properties:
+        name:
+          type: string
+        surname:
+          type: string
+        photoId:
+          type: string
+          format: uuid
+        mail:
+          type: string
+        yearbook:
+          type: string
+        formOfStudy:
+          type: string
+          description: DICT:FORM_OF_STUDY
+        fieldOfStudy:
+          type: string
+          description: DICT:FIELD_OF_STUDY
+        specialization:
+          type: string
+          description: DICT:SPECIALIZATION
+    StudentCreateRequest:
+      type: object
+      required: [ name,
+                  surname,
+                  photoId,
+                  mail,
+                  yearbook,
+                  formOfStudy,
+                  fieldOfStudy ]
+      properties:
+        name:
+          type: string
+        surname:
+          type: string
+        photoId:
+          type: string
+          format: uuid
+        mail:
+          type: string
+        yearbook:
+          type: string
+        formOfStudy:
+          type: string
+          description: DICT:FORM_OF_STUDY
+        fieldOfStudy:
+          type: string
+          description: DICT:FIELD_OF_STUDY
+        specialization:
+          type: string
+          description: DICT:SPECIALIZATION
+    StudentFindRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        surname:
+          type: string
+        mail:
+          type: string
+        yearbook:
+          type: string
+        formOfStudy:
+          type: string
+          description: DICT:FORM_OF_STUDY
+        fieldOfStudy:
+          type: string
+          description: DICT:FIELD_OF_STUDY
+        specialization:
+          type: string
+          description: DICT:SPECIALIZATION
+    VersionedRequest:
+      type: object
+      required: [ id, created ]
+      properties:
+        id:
+          type: string
+          format: uuid
+        created:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        deleted:
+          type: boolean
+    #Common
+    StringSet:
+      type: array
+      uniqueItems: true
+      items:
+        type: string
+    Uuid:
+      type: string
+      format: uuid
+  parameters:
+    DictionaryName:
+      in: path
+      name: dictionaryName
+      description: dictionary in path
+      required: true
+      schema:
+        $ref: '#/components/schemas/DictionaryName'
+    StudentId:
+      in: path
+      name: studentId
+      description: studentId in path
+      required: true
+      schema:
+        $ref: "#/components/schemas/Uuid"
+    StudentFindRequest:
+      in: query
+      name: studentFindRequest
+      description: students find request in path
+      required: true
+      schema:
+        $ref: '#/components/schemas/StudentFindRequest'

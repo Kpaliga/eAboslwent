@@ -7,8 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Data
@@ -18,14 +17,11 @@ import java.util.UUID;
 public class Dictionary {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
-
     @NotNull
     private String name;
 
     @NotNull
     @ElementCollection
-    private List<String> keys;
+    private Set<String> keys = new HashSet<>();
 
 }

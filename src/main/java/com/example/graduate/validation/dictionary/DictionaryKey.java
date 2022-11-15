@@ -1,4 +1,4 @@
-package com.example.graduate.validation;
+package com.example.graduate.validation.dictionary;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -12,9 +12,7 @@ import java.lang.annotation.*;
 )
 public @interface DictionaryKey {
     String value() default "";
-    String dictionary() default "";
-    String message() default "Invalid key for Dictionary ${utl}";
+    String message() default "";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
-
 }
