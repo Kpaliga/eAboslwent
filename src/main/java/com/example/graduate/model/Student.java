@@ -1,6 +1,6 @@
 package com.example.graduate.model;
 
-import com.example.graduate.validation.DictionaryKey;
+import com.example.graduate.validation.dictionary.DictionaryKey;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,7 +14,7 @@ import javax.validation.constraints.Email;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.graduate.validation.Dictionaries.*;
+import static com.example.graduate.validation.dictionary.Dictionaries.*;
 
 @Entity
 @Data
@@ -22,7 +22,7 @@ import static com.example.graduate.validation.Dictionaries.*;
 @NoArgsConstructor
 @SuperBuilder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
-public class Student extends VersionedEntity {
+public class Student extends Versioned {
 
     //Snapshot
     @NotNull

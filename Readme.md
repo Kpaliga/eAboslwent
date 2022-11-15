@@ -1,0 +1,1 @@
+defaultowe Awardsy, zinicjalizowane podstawowe słowniki
