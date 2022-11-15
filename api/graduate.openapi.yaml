@@ -1,0 +1,55 @@
+openapi: 3.0.3
+info:
+  title: Title
+  description: Title
+  version: 1.0.0
+
+servers:
+  - url: https://eAbsolwent.com
+    description: SERWER
+
+security:
+  - bearerAuth: [ ]
+
+tags:
+  - name: dictionary
+    description: Operacje na słownikach
+
+paths:
+  /dictionaries:
+    post:
+      tags:
+        - dictionary
+      summary: Dodawanie słownika
+      operationId: createDictionary
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DictionaryCreateRequest'
+      responses:
+        "204":
+          description: OK
+
+components:
+  schemas:
+    DictionaryCreateRequest:
+      type: object
+      required:
+        - name
+        - keys
+      properties:
+        name:
+          $ref: '#/components/schemas/Dictionary'
+        keys:
+          type: array
+          items:
+            type: string
+    Dictionary:
+      type: string
+      description: Dostępne słowniki.
+      enum:
+        - FORM_OF_STUDY
+        - FIELD_OF_STUDY
+        - SPECIALIZATION
